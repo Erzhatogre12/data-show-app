@@ -12,33 +12,30 @@ use Illuminate\Support\Facades\Validator;
 
 class VariabelController extends Controller
 {
-    public function show(){
+    public function show($dimensiId = 1){
 
-        $dimensi = Dimensi::with(['indikator' => function ($query) {
-            $query->where('dimensi_id', 1);
-        }, 'indikator.sub_indikator'])->get();
+        $dimensi = Dimensi::with('indikator',  'indikator.sub_indikator')->where('id', $dimensiId)->get();
 
         // dd($dimensi);
    
-        $variabel = Variabel::select('nama_variabel')->where('dimensi_id', '1')->pluck('nama_variabel')->toArray();
-        $nilai = Variabel::select('nilai')->where('dimensi_id', '1')->pluck('nilai')->toArray();
+        $variabel = Variabel::where('dimensi_id', $dimensiId)->pluck('nama_variabel')->toArray();
+        $nilai = Variabel::where('dimensi_id', $dimensiId)->pluck('nilai')->toArray();
 
    
-        $variabelLink = Variabel::select(['id', 'nama_variabel'])->where('dimensi_id', '1')->get();      
+        $variabelLink = Variabel::select(['id', 'nama_variabel'])->get();      
 
-        return view('show', compact('variabel', 'nilai', 'variabelLink', 'dimensi'));
+        return view('show', compact('variabel', 'nilai', 'variabelLink', 'dimensi', 'dimensiId'));
     }
 
-    public function edit($id)
+    public function edit($id, $dimensiId)
     {
-        $variabels = Variabel::where('dimensi_id', '1')->get();
+        $variabels = Variabel::where('dimensi_id', $dimensiId)->get();
   
-
         if (!$variabels) {
-            return redirect()->route('show')->with('error', 'Record not found.');
+            return redirect()->route('show', ['dimensiId' => $dimensiId])->with('error', 'Record not found.');
         }
 
-        return view('edit', compact('variabels'));
+        return view('edit', compact('variabels', 'dimensiId'));
     }
 
     public function update(Request $request, $id)

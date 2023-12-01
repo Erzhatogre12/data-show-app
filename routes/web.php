@@ -15,12 +15,11 @@ use App\Http\Controllers\Variabel2Controller;
 |
 */
 
-Route::get('/', [VariabelController::class, 'show'])->name('show');
-Route::get('/edit/{id}', [VariabelController::class, 'edit'])->name('edit');
+Route::redirect('/', '/show/{dimensiId}', 301);
+
+Route::get('/show/{dimensiId}', [VariabelController::class, 'show'])->name('show');
+Route::get('/edit/{id}/{dimensiId}', [VariabelController::class, 'edit'])->name('edit');
 Route::put('/update/{id}', [VariabelController::class, 'update'])->name('update');
 
-Route::get('/show-hak-ekonomi-sosial-dan-budaya', [Variabel2Controller::class, 'show'])->name('show2');
-Route::get('/edit2/{id}', [Variabel2Controller::class, 'edit'])->name('edit2');
-Route::put('/update2/{id}', [Variabel2Controller::class, 'update'])->name('update2');
-
+Route::resource('variabel', VariabelController::class);
 

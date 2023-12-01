@@ -42,7 +42,8 @@
             <td class="hstack">
                 @foreach ($variabelLink as $index => $item)
                     @if ($index === 0)
-                        <a href="{{ route('edit', ['id' => $item['id']]) }}" class="btn btn-primary">
+                        <a href="{{ route('edit', ['id' => $item['id'], 'dimensiId' => $dimensiId]) }}"
+                            class="btn btn-primary">
                             Edit Data
                         </a>
                     @endif

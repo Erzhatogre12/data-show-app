@@ -2,7 +2,7 @@
 
 @section('content')
     <div class="col-md-2">
-        <a href="{{ route('show') }}" class="btn btn-danger">
+        <a href="{{ route('show', ['dimensiId' => $dimensiId]) }}" class="btn btn-danger">
             Back
         </a>
     </div>
